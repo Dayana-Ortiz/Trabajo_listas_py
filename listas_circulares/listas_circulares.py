@@ -19,9 +19,8 @@ class lista_circular:
             self.cabeza = self.cola = nuevo_dato
             self.cabeza.siguiente = self.cabeza
         else:
-            aux = nuevo_dato
-            aux.siguiente = self.cabeza
-            self.cabeza = aux
+           nuevo_dato.siguiente = self.cabeza
+            self.cabeza = nuevo_dato
             self.cola.siguiente = self.cabeza
         self.longitud += 1
 
@@ -31,21 +30,26 @@ class lista_circular:
             self.cabeza = self.cola = nuevo_dato 
             self.cabeza.siguiente = self.cabeza
         else:
-            aux = self.cola
-            self.cola = aux.siguiente = nuevo_dato
+            self.cola.siguiente = nuevo_dato
+            self.cola = nuevo_dato
             self.cola.siguiente = self.cabeza
         self.longitud += 1
     
     def recorrer_lista(self):
+           if self.esta_vacia():
+            print("La lista está vacía.")
+            return
         aux = self.cabeza
         while True:
-            print(aux.dato,end=" -> ")
+            print(aux.dato, end=" -> ")
             aux = aux.siguiente
             if aux == self.cabeza:
                 break
         print(f"({self.cabeza.dato})")
 
     def eliminar_inicio(self):
+        if self.esta_vacia():
+            return
         if self.cabeza == self.cola:
             self.cabeza = self.cola = None
         else:
@@ -54,6 +58,8 @@ class lista_circular:
         self.longitud -= 1
 
     def eliminar_final(self):
+         if self.esta_vacia():
+            return
         if self.cabeza == self.cola:
             self.cabeza = self.cola = None
         else:
@@ -63,6 +69,56 @@ class lista_circular:
             aux.siguiente = self.cabeza
             self.cola = aux
         self.longitud -= 1
+
+def eliminar_en_posicion(self, pos):
+        if self.esta_vacia():
+            print("Lista vacía.")
+            return
+        if pos < 0 or pos >= self.longitud:
+            print("Posición inválida.")
+            return
+        if pos == 0:
+            self.eliminar_inicio()
+        elif pos == self.longitud - 1:
+            self.eliminar_final()
+        else:
+            aux = self.cabeza
+            for _ in range(pos - 1):
+                aux = aux.siguiente
+            aux.siguiente = aux.siguiente.siguiente
+            self.longitud -= 1
+
+    def insertar_en_posicion(self, dato, pos):
+        if pos < 0 or pos > self.longitud:
+            print("Posición inválida.")
+            return
+        if pos == 0:
+            self.agregar_inicio(dato)
+        elif pos == self.longitud:
+            self.agregar_final(dato)
+        else:
+            nuevo = Nodo(dato)
+            aux = self.cabeza
+            for _ in range(pos - 1):
+                aux = aux.siguiente
+            nuevo.siguiente = aux.siguiente
+            aux.siguiente = nuevo
+            self.longitud += 1
+
+
+    def buscar_dato(self, dato):
+        if self.esta_vacia():
+            return -1
+        aux = self.cabeza
+        pos = 0
+        while True:
+            if aux.dato == dato:
+                return pos
+            aux = aux.siguiente
+            pos += 1
+            if aux == self.cabeza:
+                break
+        return -1
     
     def imprimir_longitud(self):
         return self.longitud
